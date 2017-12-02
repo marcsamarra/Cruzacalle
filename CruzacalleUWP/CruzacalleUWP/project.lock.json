@@ -1,5 +1,6 @@
 {
-  "version": 3,
+  "locked": false,
+  "version": 2,
   "targets": {
     "UAP,Version=v10.0.10240": {
       "Microsoft.CSharp/4.0.1": {
@@ -5000,6 +5001,9 @@
       },
       "runtime.win10-arm-aot.runtime.native.System.IO.Compression/4.0.1": {
         "type": "package",
+        "compile": {
+          "runtimes/win10-arm-aot/lib/netcore50/_._": {}
+        },
         "runtime": {
           "runtimes/win10-arm-aot/lib/netcore50/clrcompression.dll": {}
         }
@@ -9552,6 +9556,9 @@
       },
       "runtime.win10-x64-aot.runtime.native.System.IO.Compression/4.0.1": {
         "type": "package",
+        "compile": {
+          "runtimes/win10-x64-aot/lib/netcore50/_._": {}
+        },
         "runtime": {
           "runtimes/win10-x64-aot/lib/netcore50/clrcompression.dll": {}
         }
@@ -14110,6 +14117,9 @@
       },
       "runtime.win10-x86-aot.runtime.native.System.IO.Compression/4.0.1": {
         "type": "package",
+        "compile": {
+          "runtimes/win10-x86-aot/lib/netcore50/_._": {}
+        },
         "runtime": {
           "runtimes/win10-x86-aot/lib/netcore50/clrcompression.dll": {}
         }
@@ -22001,52 +22011,6 @@
     ],
     "UAP,Version=v10.0.10240": []
   },
-  "packageFolders": {
-    "C:\\Users\\Marc\\.nuget\\packages\\": {}
-  },
-  "project": {
-    "restore": {
-      "projectUniqueName": "C:\\Source\\CursoMonogame\\CruzacalleUWP\\CruzacalleUWP\\CruzacalleUWP.csproj",
-      "projectName": "CruzacalleUWP",
-      "projectPath": "C:\\Source\\CursoMonogame\\CruzacalleUWP\\CruzacalleUWP\\CruzacalleUWP.csproj",
-      "projectJsonPath": "C:\\Source\\CursoMonogame\\CruzacalleUWP\\CruzacalleUWP\\project.json",
-      "packagesPath": "C:\\Users\\Marc\\.nuget\\packages\\",
-      "outputPath": "C:\\Source\\CursoMonogame\\CruzacalleUWP\\CruzacalleUWP\\obj\\",
-      "projectStyle": "ProjectJson",
-      "configFilePaths": [
-        "C:\\Users\\Marc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-      ],
-      "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
-      }
-    },
-    "dependencies": {
-      "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
-    },
-    "frameworks": {
-      "uap10.0.10240": {}
-    },
-    "runtimes": {
-      "win10-arm": {
-        "#import": []
-      },
-      "win10-arm-aot": {
-        "#import": []
-      },
-      "win10-x64": {
-        "#import": []
-      },
-      "win10-x64-aot": {
-        "#import": []
-      },
-      "win10-x86": {
-        "#import": []
-      },
-      "win10-x86-aot": {
-        "#import": []
-      }
-    }
-  }
+  "tools": {},
+  "projectFileToolGroups": {}
 }

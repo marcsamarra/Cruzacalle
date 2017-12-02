@@ -24,7 +24,7 @@ namespace Cruzacalle
         Vehiculo[] vehiculos;
         Carril[] carriles;
 
-        int totalVehiculos = 8;
+        int nivel = 0;
 
         Texture2D carblue;
         Texture2D carred;
@@ -119,8 +119,7 @@ namespace Cruzacalle
             IsMouseVisible = true;
             base.Initialize();
 
-            CrearCarriles();
-            CrearVehiculo();
+            carriles = new Carril[5];
 
             CrearBotones();
             
@@ -144,8 +143,15 @@ namespace Cruzacalle
             btnRight = new Button(btnRightTexture, (int)virtualScreen.X - 110, (int)virtualScreen.Y - 100);
         }
 
-        private void CrearVehiculo()
+        private void CrearVehiculos()
         {
+            if (vehiculos != null)
+            {
+                Array.Clear(vehiculos, 0, vehiculos.Length);
+            }
+
+            int totalVehiculos = nivel * 2;
+            
             vehiculos = new Vehiculo[totalVehiculos];
             Random r = new Random();
 
@@ -161,17 +167,17 @@ namespace Cruzacalle
 
         private void CrearCarriles()
         {
-            carriles = new Carril[5];
+            Array.Clear(carriles, 0, carriles.Length);
 
             Random r = new Random();
 
             for (int i = 0; i < 5; i++)
             {
                 int velocidad = 0;
-
+                int maxvel = Math.Min(nivel, 5);
                 do
                 {
-                    velocidad = r.Next(-5, 5);
+                    velocidad = r.Next(-maxvel, maxvel);
                 } while (velocidad == 0);
 
                 carriles[i] = new Carril(i, 96 + i * 64, velocidad);
@@ -269,6 +275,7 @@ namespace Cruzacalle
             else
             {
                 puntuacion = 0;
+                nivel = 0;
                 IniciarPartida();
                 VelocidadPierde = 0;
                 faseJuego = FaseJuego.Inicio;
@@ -284,6 +291,11 @@ namespace Cruzacalle
 
         private void IniciarPartida()
         {
+            nivel++;
+
+            CrearCarriles();
+            CrearVehiculos();
+
             posicion = new Vector2(
                virtualScreen.X/ 2,
                virtualScreen.Y- 64);

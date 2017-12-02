@@ -3,3 +3,8 @@
 ################################################################################
 
 /CruzacalleUWP/CruzacalleUWP/bin/WindowsUniversal
+/CruzacalleUWP/CruzacalleUWP/Content/bin/WindowsStoreApp
+/CruzacalleUWP/CruzacalleUWP/obj
+/CruzacalleUWP/CruzacalleUWP/Content/obj/WindowsStoreApp
+/CruzacalleUWP/.vs/CruzacalleUWP
+/.vs
