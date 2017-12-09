@@ -59,14 +59,16 @@ namespace Cruzacalle
         SoundEffectInstance SoundAmbienteInstance;
 
         Song musica;
+                
 
-        
         bool KeyUpLibre;
         bool KeyDownLibre;
         bool KeyLeftLibre;
         bool KeyRightLibre;
 
         int VelocidadPierde;
+
+        float scroll = 0;
 
         public Game1()
         {
@@ -122,8 +124,9 @@ namespace Cruzacalle
             carriles = new Carril[5];
 
             CrearBotones();
-            
-            IniciarPartida();
+
+            posicion.X = virtualScreen.X / 2;
+            IniciarNivel();
 
             faseJuego = FaseJuego.Inicio;
             puntuacion = 0;
@@ -244,7 +247,13 @@ namespace Cruzacalle
             }
 
             // TODO: Add your update logic here
-            
+
+            if (scroll > 0)
+            {
+                scroll = scroll - 3;
+                if (scroll < 0) scroll = 0;
+            }
+
             switch (faseJuego)
             {
                 case FaseJuego.Inicio:
@@ -274,9 +283,10 @@ namespace Cruzacalle
             }
             else
             {
+                posicion.X = virtualScreen.X / 2;
                 puntuacion = 0;
                 nivel = 0;
-                IniciarPartida();
+                IniciarNivel();
                 VelocidadPierde = 0;
                 faseJuego = FaseJuego.Inicio;
             }
@@ -285,20 +295,22 @@ namespace Cruzacalle
         private void UpdateGana()
         {
             puntuacion++;
-            IniciarPartida();
+            IniciarNivel();
             faseJuego = FaseJuego.Juego;
         }
 
-        private void IniciarPartida()
+        private void IniciarNivel()
         {
             nivel++;
+            
+            scroll = virtualScreen.Y;
 
             CrearCarriles();
             CrearVehiculos();
 
-            posicion = new Vector2(
-               virtualScreen.X/ 2,
-               virtualScreen.Y- 64);
+           
+            posicion.Y = virtualScreen.Y-64;
+
         }
 
         private void UpdateJuego()
@@ -349,7 +361,7 @@ namespace Cruzacalle
             if (posicion.Y > virtualScreen.Y)
                 posicion.Y = virtualScreen.Y;
 
-            if (posicion.Y < 60) Gana();
+            if (posicion.Y < 0 ) Gana();
         }
 
         private void UpdateInicio()
@@ -516,7 +528,12 @@ namespace Cruzacalle
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.Immediate,null,null,null,null,null,Scale);
 
-            spriteBatch.Draw(decorado, Vector2.Zero);
+            // decorado
+            spriteBatch.Draw(decorado, new Vector2 (0, -scroll), Color.White);
+
+            // Parte inferior del decorado    
+            spriteBatch.Draw(decorado, new Vector2(0, virtualScreen.Y - scroll), Color.White);
+
 
             DibujarPuntuacion();
             DibujarBotones();
@@ -548,7 +565,7 @@ namespace Cruzacalle
             }
             else
             {
-                spriteBatch.Draw(jugador, posicion,
+                spriteBatch.Draw(jugador, posicion + new Vector2(0,-scroll),
                 scale: Vector2.One,
                 rotation: rotation,
                 origin: Vector2.Zero,
@@ -602,7 +619,7 @@ namespace Cruzacalle
         {
             foreach (Vehiculo vehiculo in vehiculos)
             {
-                spriteBatch.Draw(vehiculo.Textura, vehiculo.getposicion());
+                spriteBatch.Draw(vehiculo.Textura, vehiculo.getposicion()+ new Vector2(0, -scroll), Color.White);
             }
 
         }
