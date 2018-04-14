@@ -38,6 +38,8 @@ namespace Cruzacalle
         FaseJuego faseJuego;
 
         int puntuacion;
+        int tiempo = 1000;
+        int vidas = 3;
 
         SpriteFont gameFont;
 
@@ -283,18 +285,29 @@ namespace Cruzacalle
             }
             else
             {
+                vidas--; 
+
+                if (vidas >0)
+                {
+                    posicion.Y = virtualScreen.Y - 64;
+                    faseJuego = FaseJuego.Juego;
+                }
+                else
+                {
+                    faseJuego = FaseJuego.Inicio;
+                    nivel = 0;
+                    vidas = 3;
+                    IniciarNivel();
+                }
+
                 posicion.X = virtualScreen.X / 2;
-                puntuacion = 0;
-                nivel = 0;
-                IniciarNivel();
                 VelocidadPierde = 0;
-                faseJuego = FaseJuego.Inicio;
             }
         }
 
         private void UpdateGana()
         {
-            puntuacion++;
+            puntuacion += tiempo;
             IniciarNivel();
             faseJuego = FaseJuego.Juego;
         }
@@ -302,6 +315,7 @@ namespace Cruzacalle
         private void IniciarNivel()
         {
             nivel++;
+            tiempo = 1000;
             
             scroll = virtualScreen.Y;
 
@@ -315,6 +329,15 @@ namespace Cruzacalle
 
         private void UpdateJuego()
         {
+            if (tiempo > 0 && scroll == 0) tiempo--;
+
+            if (tiempo==0)
+            {
+                faseJuego = FaseJuego.Pierde;
+                VelocidadPierde = 3;
+                tiempo = 1000;
+            }
+
             ControlDeTeclado();
             ControlTactil();
             MoverVehiculos();
@@ -612,6 +635,30 @@ namespace Cruzacalle
                 new Vector2(
                    virtualScreen.X- longitud, 40)
                     , Color.White);
+
+            mensaje = String.Format("Tiempo : {0:D4}", tiempo);
+
+            longitud = gameFont.MeasureString(mensaje).X;
+
+            spriteBatch.DrawString(gameFont, mensaje,
+                new Vector2(
+                   virtualScreen.X - longitud, 0)
+                    , Color.White);
+
+            mensaje = String.Format("Nivel : {0:D2}", nivel);
+
+            
+
+            spriteBatch.DrawString(gameFont, mensaje,
+                new Vector2(0, 0), Color.White);
+
+            mensaje = String.Format("Vidas : {0:D2}", vidas);
+
+            
+
+            spriteBatch.DrawString(gameFont, mensaje,
+                new Vector2(0, 40), Color.White);
+
 
         }
 
