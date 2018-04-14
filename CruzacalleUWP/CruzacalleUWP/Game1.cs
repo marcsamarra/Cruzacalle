@@ -83,13 +83,13 @@ namespace Cruzacalle
 
         public void StopSound()
         {
+            if (MediaPlayer.State == MediaState.Playing && MediaPlayer.GameHasControl)
+            {
+                MediaPlayer.Stop();
+            }
+
             if (SoundAmbienteInstance.State == SoundState.Playing)
             {
-                if (MediaPlayer.State == MediaState.Playing && MediaPlayer.GameHasControl)
-                {
-                    MediaPlayer.Stop();
-                }
-
                 SoundAmbienteInstance.Stop(true);
             }
         }
@@ -277,7 +277,6 @@ namespace Cruzacalle
 
         private void UpdatePierde()
         {
-
             if (posicion.X>0 && posicion.X<virtualScreen.X)
             {
                 //MoverVehiculos();
@@ -291,6 +290,10 @@ namespace Cruzacalle
                 {
                     posicion.Y = virtualScreen.Y - 64;
                     faseJuego = FaseJuego.Juego;
+                    if (MediaPlayer.State != MediaState.Playing && MediaPlayer.GameHasControl)
+                    {
+                        MediaPlayer.Play(musica);
+                    }
                 }
                 else
                 {
@@ -321,10 +324,8 @@ namespace Cruzacalle
 
             CrearCarriles();
             CrearVehiculos();
-
            
             posicion.Y = virtualScreen.Y-64;
-
         }
 
         private void UpdateJuego()
@@ -396,6 +397,7 @@ namespace Cruzacalle
                 faseJuego = FaseJuego.Juego;
                 SoundAmbienteInstance.Play();
 
+                puntuacion = 0; // <== ponemos a cero cuando pulsa tecla
 
                 if (MediaPlayer.State != MediaState.Playing && MediaPlayer.GameHasControl)
                 {
@@ -557,10 +559,8 @@ namespace Cruzacalle
             // Parte inferior del decorado    
             spriteBatch.Draw(decorado, new Vector2(0, virtualScreen.Y - scroll), Color.White);
 
-
             DibujarPuntuacion();
             DibujarBotones();
-
            
             if (faseJuego == FaseJuego.Inicio)
             {
@@ -647,19 +647,13 @@ namespace Cruzacalle
 
             mensaje = String.Format("Nivel : {0:D2}", nivel);
 
-            
-
             spriteBatch.DrawString(gameFont, mensaje,
                 new Vector2(0, 0), Color.White);
 
             mensaje = String.Format("Vidas : {0:D2}", vidas);
 
-            
-
             spriteBatch.DrawString(gameFont, mensaje,
                 new Vector2(0, 40), Color.White);
-
-
         }
 
         private void DibujarVehiculos()
@@ -668,7 +662,6 @@ namespace Cruzacalle
             {
                 spriteBatch.Draw(vehiculo.Textura, vehiculo.getposicion()+ new Vector2(0, -scroll), Color.White);
             }
-
         }
     }
 }
